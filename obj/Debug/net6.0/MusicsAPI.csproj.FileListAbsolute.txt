@@ -25,3 +25,14 @@
 /Users/kemerhabesh/Documents/C# projects/MusicsAPI/obj/Debug/net6.0/MusicsAPI.pdb
 /Users/kemerhabesh/Documents/C# projects/MusicsAPI/obj/Debug/net6.0/MusicsAPI.genruntimeconfig.cache
 /Users/kemerhabesh/Documents/C# projects/MusicsAPI/obj/Debug/net6.0/ref/MusicsAPI.dll
+/Users/kemerhabesh/Documents/C# projects/MusicsAPI/bin/Debug/net6.0/Microsoft.EntityFrameworkCore.dll
+/Users/kemerhabesh/Documents/C# projects/MusicsAPI/bin/Debug/net6.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+/Users/kemerhabesh/Documents/C# projects/MusicsAPI/bin/Debug/net6.0/Microsoft.EntityFrameworkCore.InMemory.dll
+/Users/kemerhabesh/Documents/C# projects/MusicsAPI/bin/Debug/net6.0/Microsoft.Extensions.Caching.Abstractions.dll
+/Users/kemerhabesh/Documents/C# projects/MusicsAPI/bin/Debug/net6.0/Microsoft.Extensions.Caching.Memory.dll
+/Users/kemerhabesh/Documents/C# projects/MusicsAPI/bin/Debug/net6.0/Microsoft.Extensions.DependencyInjection.dll
+/Users/kemerhabesh/Documents/C# projects/MusicsAPI/bin/Debug/net6.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
+/Users/kemerhabesh/Documents/C# projects/MusicsAPI/bin/Debug/net6.0/Microsoft.Extensions.Logging.dll
+/Users/kemerhabesh/Documents/C# projects/MusicsAPI/bin/Debug/net6.0/Microsoft.Extensions.Logging.Abstractions.dll
+/Users/kemerhabesh/Documents/C# projects/MusicsAPI/bin/Debug/net6.0/Microsoft.Extensions.Options.dll
+/Users/kemerhabesh/Documents/C# projects/MusicsAPI/bin/Debug/net6.0/Microsoft.Extensions.Primitives.dll

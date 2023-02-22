@@ -1,3 +1,6 @@
+
+
+
 public class DataModel
 {
     public DataModel(string Id, string Name, string ArtistName, string Genre)
@@ -16,3 +19,4 @@ public class DataModel
     // public string? ContentAdvisoryRating { get; set; }
     // public Uri? Url { get; set; }
 }
+

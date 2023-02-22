@@ -4,14 +4,23 @@ using Microsoft.AspNetCore.Mvc;
 [Route("[controller]")]
 public class MusicsController : ControllerBase
 {
-    DataModel[] data = {
-        new DataModel("1", "Nobody", "Casting Crowns", "Gospel"),
-        new DataModel("2", "For Tonight", "Giveon", "R&B"),
-        new DataModel("3", "Less Like Me", "Jack Williams", "Gospel"),
+    static List<DataModel> SongList = new List<DataModel>{
+         new DataModel("1", "Nobody", "Casting Crowns", "Christian, Rock"),
+         new DataModel("2", "Be Alright", "Evan Craft", "Christian, Rap/Hip-Hop"),
+         new DataModel("3", "Less Like Me", "Jack Williams", "Christian, Soft Rock"),
     };
+
     [HttpGet]
-    public DataModel[] getAllSongs()
+    public List<DataModel> GetAllSongs()
     {
-        return data;
+        Console.WriteLine(SongList.Count);
+        return SongList;
+    }
+
+    [HttpPost]
+    public void AddSong(DataModel Song)
+    {
+        SongList.Add(Song);
+        Console.WriteLine(SongList.Count);
     }
 }

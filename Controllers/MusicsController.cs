@@ -40,7 +40,6 @@ public class MusicsController : ControllerBase
     [HttpPost("name/{PlaylistName}")]
     public void AddSongToPlaylist(string PlaylistName, Song song)
     {
-        // var playlist = PlaylistCollection.Find(playlist => playlist.Name == PlaylistName).FirstOrDefault();
         var playlist = PlaylistCollection.FindOneAndDelete(playlist => playlist.Name == PlaylistName);
         playlist.songs.Add(song);
         PlaylistCollection.InsertOne(playlist);
@@ -59,16 +58,40 @@ public class MusicsController : ControllerBase
     //         PlaylistCollection = (IMongoCollection<Playlist>)songs;
     //     }
     // }
-    // [HttpDelete]
-    // public void DeleteSongById(string Id)
-    // {
-    //     var songs = PlaylistCollection.Find(_ => true).ToList();
+    [HttpDelete("id")]
+    public void DeletePlaylistById(string Id)
+    {
+        // var playlists = PlaylistCollection.Find(_ => true).ToList();
 
-    //     if (songs != null)
-    //     {
-    //         var song = songs.Find(song => song.Id == Id);
-    //         songs.Remove(song!);
-    //         PlaylistCollection = (IMongoCollection<Playlist>)songs;
-    //     }
-    // }
+        // if (playlists != null)
+        // {
+        //     var song = playlists.Find(song => song.Id == Id);
+        //     playlists.Remove(song!);
+        //     PlaylistCollection = (IMongoCollection<Playlist>)playlists;
+        // }
+        // var playlist = PlaylistCollection.FindOneAndDelete(playlist => playlist.Id == Id);
+        // PlaylistCollection.InsertOne(playlist);
+        var playlist = new Playlist();
+        PlaylistCollection.FindOneAndDelete(playlist => playlist.Id == Id);
+    }
+    [HttpDelete("id/songId")]
+    public void DeleteSongFromPlaylistById(string playlistId, string songId)
+    {
+        var playlist = PlaylistCollection.Find(playlist => playlist.Id == playlistId).FirstOrDefault();
+        foreach (var song in playlist.songs)
+        {
+            if (song.Id == songId)
+            {
+                playlist.songs.Remove(song);
+                PlaylistCollection.ReplaceOne(playlist => playlist.Id == playlistId, playlist);
+                break;
+            }
+        }
+        // if (songs != null)
+        // {
+        //     var song = songs.Find(song => song.Id == Id);
+        //     songs.Remove(song!);
+        //     PlaylistCollection = (IMongoCollection<Playlist>)songs;
+        // }
+    }
 }

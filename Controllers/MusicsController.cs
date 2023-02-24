@@ -37,10 +37,11 @@ public class MusicsController : ControllerBase
         PlaylistCollection.InsertOne(playlist);
     }
 
-    [HttpPost("name={PlaylistName}")]
+    [HttpPost("name/{PlaylistName}")]
     public void AddSongToPlaylist(string PlaylistName, Song song)
     {
-        var playlist = PlaylistCollection.Find(playlist => playlist.Name == PlaylistName).FirstOrDefault();
+        // var playlist = PlaylistCollection.Find(playlist => playlist.Name == PlaylistName).FirstOrDefault();
+        var playlist = PlaylistCollection.FindOneAndDelete(playlist => playlist.Name == PlaylistName);
         playlist.songs.Add(song);
         PlaylistCollection.InsertOne(playlist);
     }

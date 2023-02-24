@@ -6,7 +6,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.Configure<MusicDatabaseSettings>(builder.Configuration.GetSection("MusicDatabase"));
+builder.Services.Configure<MusicDatabaseSettings>(builder.Configuration.GetSection("Playlist"));
 
 var app = builder.Build();
 

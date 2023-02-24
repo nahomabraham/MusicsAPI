@@ -6,59 +6,68 @@ using MongoDB.Driver;
 [Route("[controller]")]
 public class MusicsController : ControllerBase
 {
-    static IMongoCollection<MusicData> SongList;
-    // static List<MusicData> SongList = new List<MusicData>{
+    static IMongoCollection<Playlist> PlaylistCollection;
+    // static List<Playlist> PlaylistCollection = new List<Playlist>{
     //      new Music Data("1", "Nobody", "Casting Crowns", "Christian, Rock"),
-    //      new MusicData("2", "Be Alright", "Evan Craft", "Christian, Rap/Hip-Hop"),
-    //      new MusicData("3", "Less Like Me", "Jack Williams", "Christian, Soft Rock"),
+    //      new Playlist("2", "Be Alright", "Evan Craft", "Christian, Rap/Hip-Hop"),
+    //      new Playlist("3", "Less Like Me", "Jack Williams", "Christian, Soft Rock"),
     // };
     public MusicsController(IOptions<MusicDatabaseSettings> musicDatabaseSettings)
     {
         var mongoClient = new MongoClient(musicDatabaseSettings.Value.ConnectionString);
         var database = mongoClient.GetDatabase(musicDatabaseSettings.Value.DatabaseName);
-        SongList = database.GetCollection<MusicData>(musicDatabaseSettings.Value.CollectionName);
+        PlaylistCollection = database.GetCollection<Playlist>(musicDatabaseSettings.Value.CollectionName);
     }
 
 
     [HttpGet]
-    public List<MusicData> GetAllSongs()
+    public List<Playlist> GetAllPlaylists()
     {
-        return SongList.Find(_ => true).ToList();
+        return PlaylistCollection.Find(_ => true).ToList();
     }
     [HttpGet("id/{id}")]
-    public MusicData GetSongById(string id)
+    public Playlist GetPlaylistById(string id)
     {
-        return SongList.Find(song => song.Id == id).FirstOrDefault();
+        return PlaylistCollection.Find(song => song.Id == id).FirstOrDefault();
     }
 
     [HttpPost]
-    public void AddSong(MusicData Song)
+    public void AddPlaylist(Playlist playlist)
     {
-        SongList.InsertOne(Song);
+        PlaylistCollection.InsertOne(playlist);
     }
-    [HttpPut]
-    public void EditSongById(string Id, MusicData EdittedSong)
-    {
-        var songs = SongList.Find(_ => true).ToList();
 
-        if (songs != null)
-        {
-            var song = songs.Find(song => song.Id == Id);
-            songs.Insert(songs.IndexOf(song!), EdittedSong);
-            songs.Remove(song!);
-            SongList = (IMongoCollection<MusicData>)songs;
-        }
-    }
-    [HttpDelete]
-    public void DeleteSongById(string Id)
+    [HttpPost("name={PlaylistName}")]
+    public void AddSongToPlaylist(string PlaylistName, Song song)
     {
-        var songs = SongList.Find(_ => true).ToList();
-
-        if (songs != null)
-        {
-            var song = songs.Find(song => song.Id == Id);
-            songs.Remove(song!);
-            SongList = (IMongoCollection<MusicData>)songs;
-        }
+        var playlist = PlaylistCollection.Find(playlist => playlist.Name == PlaylistName).FirstOrDefault();
+        playlist.songs.Add(song);
+        PlaylistCollection.InsertOne(playlist);
     }
+
+    // [HttpPut]
+    // public void EditSongById(string Id, Playlist EdittedSong)
+    // {
+    //     var songs = PlaylistCollection.Find(_ => true).ToList();
+
+    //     if (songs != null)
+    //     {
+    //         var song = songs.Find(song => song.Id == Id);
+    //         songs.Insert(songs.IndexOf(song!), EdittedSong);
+    //         songs.Remove(song!);
+    //         PlaylistCollection = (IMongoCollection<Playlist>)songs;
+    //     }
+    // }
+    // [HttpDelete]
+    // public void DeleteSongById(string Id)
+    // {
+    //     var songs = PlaylistCollection.Find(_ => true).ToList();
+
+    //     if (songs != null)
+    //     {
+    //         var song = songs.Find(song => song.Id == Id);
+    //         songs.Remove(song!);
+    //         PlaylistCollection = (IMongoCollection<Playlist>)songs;
+    //     }
+    // }
 }

@@ -1,9 +1,10 @@
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 
-
-public class DataModel
+public class MusicData
 {
-    public DataModel(string Id, string Name, string ArtistName, string Genre)
+    public MusicData(string Id, string Name, string ArtistName, string Genre)
     {
         this.Id = Id;
         this.Name = Name;
@@ -11,6 +12,8 @@ public class DataModel
         this.Genre = Genre;
 
     }
+    [BsonId]
+    [BsonRepresentation(BsonType.ObjectId)]
     public string Id { get; set; }
     public string Name { get; set; }
     public string ArtistName { get; set; }

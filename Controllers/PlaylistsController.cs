@@ -4,10 +4,10 @@ using MongoDB.Driver;
 
 [ApiController]
 [Route("api/[controller]")]
-public class MusicsController : ControllerBase
+public class PlaylistsController : ControllerBase
 {
     static IMongoCollection<Playlist>? PlaylistCollection;
-    public MusicsController(IOptions<MusicDatabaseSettings> musicDatabaseSettings)
+    public PlaylistsController(IOptions<MusicDatabaseSettings> musicDatabaseSettings)
     {
         var mongoClient = new MongoClient(musicDatabaseSettings.Value.ConnectionString);
         var database = mongoClient.GetDatabase(musicDatabaseSettings.Value.DatabaseName);
@@ -41,15 +41,15 @@ public class MusicsController : ControllerBase
             PlaylistCollection?.InsertOne(playlist);
     }
 
-    [HttpPut("{PlaylistId}")]
-    public void EditPlaylistNameById(string PlaylistId, string NewPlaylistName)
+    [HttpPut("editPlaylist/{PlaylistName}")]
+    public void EditPlaylistNameByName(string PlaylistName, string NewPlaylistName)
     {
-        var playlist = PlaylistCollection?.Find(playlist => playlist.Id == PlaylistId).FirstOrDefault();
+        var playlist = PlaylistCollection?.Find(playlist => playlist.Name == PlaylistName).FirstOrDefault();
         if (playlist != null)
             playlist.Name = NewPlaylistName;
-        PlaylistCollection.ReplaceOne(playlist => playlist.Id == PlaylistId, playlist);
+        PlaylistCollection.ReplaceOne(playlist => playlist.Name == PlaylistName, playlist);
     }
-    [HttpPut("{SongId}")]
+    [HttpPut("editSong/{SongId}")]
     public void EditSongById(string PlaylistId, string SongId, Song EdittedSong)
     {
         var playlist = PlaylistCollection.Find(playlist => playlist.Id == PlaylistId).FirstOrDefault();
@@ -61,8 +61,7 @@ public class MusicsController : ControllerBase
     [HttpDelete("deleteplaylist/{id}")]
     public void DeletePlaylistById(string Id)
     {
-        var playlist = PlaylistCollection.Find(playlist => playlist.Id == Id).FirstOrDefault();
-        PlaylistCollection.ReplaceOne(playlist => playlist.Id == Id, new Playlist());
+        PlaylistCollection.DeleteOne(playlist => playlist.Id == Id);
     }
     [HttpDelete("deletesong/{SongId}")]
     public void DeleteSongFromPlaylistById(string playlistId, string SongId)

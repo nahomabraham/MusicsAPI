@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using Music;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -16,21 +17,20 @@ public class PlaylistsController : ControllerBase
 
 
     [HttpGet]
-    public async Task<List<Playlist>> GetAllPlaylists()
+    public List<Playlist> GetAllPlaylists()
     {
         return PlaylistCollection.Find(_ => true).ToList();
     }
     [HttpGet("{id}")]
-    public async Task<Playlist> GetPlaylistById(string id)
+    public Playlist GetPlaylistById(string id)
     {
-        // var appleSong = await iTunesAPI.searchMusic("another+in+the+fire");
-        var playlist = PlaylistCollection.Find(song => song.Id == id).FirstOrDefault();
-        // var song = new Song();
-        // song.Name = appleSong.TrackName;
-        // song.ArtistName = appleSong.ArtistName;
-        // song.Genre = "Christian";
-        // AddSongToPlaylist(playlist.Name, song);
-        return playlist;
+        return PlaylistCollection.Find(playlist => playlist.Id == id).FirstOrDefault(); ;
+    }
+
+    [HttpGet("search/{searchString}")]
+    public async Task<Result[]> search(string searchString)
+    {
+        return await iTunesAPI.searchMusic(searchString);
     }
     [HttpPost]
     public void CreatePlaylist(Playlist playlist)
@@ -38,44 +38,39 @@ public class PlaylistsController : ControllerBase
         PlaylistCollection?.InsertOne(playlist);
     }
 
-    [HttpPost("{PlaylistName}")]
-    public void AddSongToPlaylist(string PlaylistName, Song song)
+    [HttpPost("{PlaylistId}")]
+    public void AddSongToPlaylist(string PlaylistId, Result song)
     {
-        var playlist = PlaylistCollection?.FindOneAndDelete(playlist => playlist.Name == PlaylistName);
+        var playlist = GetPlaylistById(PlaylistId);
+
         playlist?.songs.Add(song);
         if (playlist != null)
+        {
+            DeletePlaylistById(PlaylistId);
             PlaylistCollection?.InsertOne(playlist);
+        }
     }
 
-    [HttpPut("editPlaylist/{PlaylistName}")]
-    public void EditPlaylistNameByName(string PlaylistName, string NewPlaylistName)
+    [HttpPut("editPlaylist/{PlaylistId}")]
+    public void EditPlaylistById(string PlaylistId, string NewPlaylistName)
     {
-        var playlist = PlaylistCollection?.Find(playlist => playlist.Name == PlaylistName).FirstOrDefault();
+        var playlist = GetPlaylistById(PlaylistId);
         if (playlist != null)
             playlist.Name = NewPlaylistName;
-        PlaylistCollection.ReplaceOne(playlist => playlist.Name == PlaylistName, playlist);
-    }
-    [HttpPut("editSong/{SongId}")]
-    public void EditSongById(string PlaylistId, string SongId, Song EdittedSong)
-    {
-        var playlist = PlaylistCollection.Find(playlist => playlist.Id == PlaylistId).FirstOrDefault();
-        var song = playlist.songs.Find(song => song.Id == SongId);
-        playlist.songs.Remove(song);
-        playlist.songs.Add(EdittedSong);
         PlaylistCollection.ReplaceOne(playlist => playlist.Id == PlaylistId, playlist);
     }
-    [HttpDelete("deleteplaylist/{id}")]
+    [HttpDelete("deleteplaylist/{Id}")]
     public void DeletePlaylistById(string Id)
     {
-        PlaylistCollection.DeleteOne(playlist => playlist.Id == Id);
+        PlaylistCollection.DeleteOne(i => i.Id == Id);
     }
     [HttpDelete("deletesong/{SongId}")]
-    public void DeleteSongFromPlaylistById(string playlistId, string SongId)
+    public void DeleteSongFromPlaylistById(string PlaylistId, string SongId)
     {
-        var playlist = PlaylistCollection.Find(playlist => playlist.Id == playlistId).FirstOrDefault();
-        var song = playlist.songs.Find(song => song.Id == SongId);
+        var playlist = GetPlaylistById(PlaylistId);
+        var song = playlist.songs.Find(song => song.TrackId.ToString() == SongId);
         if (song != null)
             playlist.songs.Remove(song);
-        PlaylistCollection.ReplaceOne(playlist => playlist.Id == playlistId, playlist);
+        PlaylistCollection.ReplaceOne(playlist => playlist.Id == PlaylistId, playlist);
     }
 }

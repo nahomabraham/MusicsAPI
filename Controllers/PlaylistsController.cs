@@ -4,8 +4,6 @@ using MongoDB.Driver;
 using Music;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MusicsAPI.Models;
-using MusicsAPI.Services;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.Extensions.Configuration;
@@ -17,7 +15,7 @@ using System.IdentityModel.Tokens.Jwt;
 using ZstdSharp.Unsafe;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-
+using authentication.Model;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -33,7 +31,7 @@ public class PlaylistsController : ControllerBase
         var mongoClient = new MongoClient(musicDatabaseSettings.Value.ConnectionString);
         var database = mongoClient.GetDatabase(musicDatabaseSettings.Value.DatabaseName);
         PlaylistCollection = database.GetCollection<Playlist>(musicDatabaseSettings.Value.CollectionName);
-   
+
         _users = database.GetCollection<User>(settings.Value.UserCollectionName);
         _configuration = configuration;
     }
@@ -43,7 +41,7 @@ public class PlaylistsController : ControllerBase
     {
 
         user.UserName = request.UserName;
-        user.UserPassword = request.Password;        
+        user.UserPassword = request.Password;
         _users.InsertOne(user);
         return Ok(user);
 
@@ -89,7 +87,8 @@ public class PlaylistsController : ControllerBase
     }
 
 
-    [HttpDelete("delete")]
+    [HttpDelete("delete"), Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public async Task<ActionResult<User>> DeleteAccount(string name, string password)
     {
         return Ok(_users.DeleteOne(u => u.UserName == name && u.UserPassword == password));
@@ -98,29 +97,34 @@ public class PlaylistsController : ControllerBase
 
 
 
-    [HttpGet]
+    [HttpGet, Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public List<Playlist> GetAllPlaylists()
     {
         return PlaylistCollection.Find(_ => true).ToList();
     }
-    [HttpGet("{id}")]
+    [HttpGet("{id}"), Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public Playlist GetPlaylistById(string id)
     {
         return PlaylistCollection.Find(playlist => playlist.Id == id).FirstOrDefault(); ;
     }
 
-    [HttpGet("search/{searchString}")]
+    [HttpGet("search/{searchString}"), Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public async Task<Result[]> search(string searchString)
     {
         return await iTunesAPI.searchMusic(searchString);
     }
-    [HttpPost]
+    [HttpPost, Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public void CreatePlaylist(Playlist playlist)
     {
         PlaylistCollection?.InsertOne(playlist);
     }
 
-    [HttpPost("{PlaylistId}")]
+    [HttpPost("{PlaylistId}"), Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public void AddSongToPlaylist(string PlaylistId, Result song)
     {
         var playlist = GetPlaylistById(PlaylistId);
@@ -133,7 +137,8 @@ public class PlaylistsController : ControllerBase
         }
     }
 
-    [HttpPut("editPlaylist/{PlaylistId}")]
+    [HttpPut("editPlaylist/{PlaylistId}"), Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public void EditPlaylistById(string PlaylistId, string NewPlaylistName)
     {
         var playlist = GetPlaylistById(PlaylistId);
@@ -141,12 +146,14 @@ public class PlaylistsController : ControllerBase
             playlist.Name = NewPlaylistName;
         PlaylistCollection.ReplaceOne(playlist => playlist.Id == PlaylistId, playlist);
     }
-    [HttpDelete("deleteplaylist/{Id}")]
+    [HttpDelete("deleteplaylist/{Id}"), Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public void DeletePlaylistById(string Id)
     {
         PlaylistCollection.DeleteOne(i => i.Id == Id);
     }
-    [HttpDelete("deletesong/{SongId}")]
+    [HttpDelete("deletesong/{SongId}"), Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public void DeleteSongFromPlaylistById(string PlaylistId, string SongId)
     {
         var playlist = GetPlaylistById(PlaylistId);

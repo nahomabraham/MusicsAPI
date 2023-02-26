@@ -49,6 +49,18 @@
 /Users/kemerhabesh/Documents/C# projects/MusicsAPI/bin/Debug/net6.0/runtimes/linux/native/libmongocrypt.so
 /Users/kemerhabesh/Documents/C# projects/MusicsAPI/bin/Debug/net6.0/runtimes/osx/native/libmongocrypt.dylib
 /Users/kemerhabesh/Documents/C# projects/MusicsAPI/bin/Debug/net6.0/runtimes/win/native/mongocrypt.dll
-C:\Users\eyobs\Source\Repos\MusicsAPI\obj\Debug\net6.0\MusicsAPI.dll
-C:\Users\eyobs\Source\Repos\MusicsAPI\obj\Debug\net6.0\refint\MusicsAPI.dll
-C:\Users\eyobs\Source\Repos\MusicsAPI\obj\Debug\net6.0\MusicsAPI.pdb
+C:/Users/eyobs/Source/Repos/MusicsAPI/obj/Debug/net6.0/MusicsAPI.dll
+C:/Users/eyobs/Source/Repos/MusicsAPI/obj/Debug/net6.0/refint/MusicsAPI.dll
+C:/Users/eyobs/Source/Repos/MusicsAPI/obj/Debug/net6.0/MusicsAPI.pdb
+/Users/kemerhabesh/Documents/C# projects/MusicsAPI/bin/Debug/net6.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/kemerhabesh/Documents/C# projects/MusicsAPI/bin/Debug/net6.0/Microsoft.Extensions.DependencyModel.dll
+/Users/kemerhabesh/Documents/C# projects/MusicsAPI/bin/Debug/net6.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/kemerhabesh/Documents/C# projects/MusicsAPI/bin/Debug/net6.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/kemerhabesh/Documents/C# projects/MusicsAPI/bin/Debug/net6.0/Microsoft.IdentityModel.Logging.dll
+/Users/kemerhabesh/Documents/C# projects/MusicsAPI/bin/Debug/net6.0/Microsoft.IdentityModel.Protocols.dll
+/Users/kemerhabesh/Documents/C# projects/MusicsAPI/bin/Debug/net6.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/kemerhabesh/Documents/C# projects/MusicsAPI/bin/Debug/net6.0/Microsoft.IdentityModel.Tokens.dll
+/Users/kemerhabesh/Documents/C# projects/MusicsAPI/bin/Debug/net6.0/Scrutor.dll
+/Users/kemerhabesh/Documents/C# projects/MusicsAPI/bin/Debug/net6.0/Swashbuckle.AspNetCore.Filters.dll
+/Users/kemerhabesh/Documents/C# projects/MusicsAPI/bin/Debug/net6.0/Swashbuckle.AspNetCore.Filters.Abstractions.dll
+/Users/kemerhabesh/Documents/C# projects/MusicsAPI/bin/Debug/net6.0/System.IdentityModel.Tokens.Jwt.dll

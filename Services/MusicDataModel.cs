@@ -56,15 +56,15 @@ namespace Music
         // public long[] GenreIds { get; set; }
     }
 
-    public enum Explicitness { Cleaned, NotExplicit };
+    // public enum Explicitness { Cleaned, NotExplicit };
 
-    public enum Country { Usa };
+    // public enum Country { Usa };
 
-    public enum Currency { Usd };
+    // public enum Currency { Usd };
 
-    public enum Kind { FeatureMovie, Podcast, Song };
+    // public enum Kind { FeatureMovie, Podcast, Song };
 
-    public enum PrimaryGenreName { Ccm, Christian, Christianity, Documentary, Reggae, ReligionSpirituality, SingerSongwriter };
+    // public enum PrimaryGenreName { Ccm, Christian, Christianity, Documentary, Reggae, ReligionSpirituality, SingerSongwriter };
 
-    public enum WrapperType { Track };
+    // public enum WrapperType { Track };
 }

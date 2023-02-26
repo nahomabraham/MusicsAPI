@@ -16,16 +16,22 @@ public class PlaylistsController : ControllerBase
 
 
     [HttpGet]
-    public List<Playlist> GetAllPlaylists()
+    public async Task<List<Playlist>> GetAllPlaylists()
     {
         return PlaylistCollection.Find(_ => true).ToList();
     }
     [HttpGet("{id}")]
-    public Playlist GetPlaylistById(string id)
+    public async Task<Playlist> GetPlaylistById(string id)
     {
-        return PlaylistCollection.Find(song => song.Id == id).FirstOrDefault();
+        // var appleSong = await iTunesAPI.searchMusic("another+in+the+fire");
+        var playlist = PlaylistCollection.Find(song => song.Id == id).FirstOrDefault();
+        // var song = new Song();
+        // song.Name = appleSong.TrackName;
+        // song.ArtistName = appleSong.ArtistName;
+        // song.Genre = "Christian";
+        // AddSongToPlaylist(playlist.Name, song);
+        return playlist;
     }
-
     [HttpPost]
     public void CreatePlaylist(Playlist playlist)
     {

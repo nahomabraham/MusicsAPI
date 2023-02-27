@@ -2,12 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using Music;
+using authentication.Model;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using authentication.Model;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -110,8 +110,12 @@ public class PlaylistsController : ControllerBase
     }
     [HttpPost("CreatePlaylist"), Authorize]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public void CreatePlaylist(Playlist playlist)
+    public void CreatePlaylist(string Id, string Name)
     {
+        var playlist = new Playlist();
+        playlist.Id = Id;
+        playlist.Name = Name;
+        playlist.songs = new List<Result>();
         PlaylistCollection?.InsertOne(playlist);
     }
 

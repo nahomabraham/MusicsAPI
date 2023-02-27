@@ -49,3 +49,6 @@
 /Users/kemerhabesh/Documents/C# projects/MusicsAPI/bin/Debug/net6.0/runtimes/linux/native/libmongocrypt.so
 /Users/kemerhabesh/Documents/C# projects/MusicsAPI/bin/Debug/net6.0/runtimes/osx/native/libmongocrypt.dylib
 /Users/kemerhabesh/Documents/C# projects/MusicsAPI/bin/Debug/net6.0/runtimes/win/native/mongocrypt.dll
+C:\Users\eyobs\Source\Repos\MusicsAPI\obj\Debug\net6.0\MusicsAPI.dll
+C:\Users\eyobs\Source\Repos\MusicsAPI\obj\Debug\net6.0\refint\MusicsAPI.dll
+C:\Users\eyobs\Source\Repos\MusicsAPI\obj\Debug\net6.0\MusicsAPI.pdb

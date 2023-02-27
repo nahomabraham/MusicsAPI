@@ -9,24 +9,24 @@ namespace Music
 
     public partial class Result
     {
-        // public WrapperType WrapperType { get; set; }
-        // public Kind Kind { get; set; }
-        // public long? ArtistId { get; set; }
-        // public long? CollectionId { get; set; }
         public long TrackId { get; set; }
         public string TrackName { get; set; } = null!;
         public string ArtistName { get; set; } = null!;
         public string[] Genres { get; set; } = null!;
+        public Uri PreviewUrl { get; set; } = null!;
+        public Uri ArtworkUrl100 { get; set; } = null!;
+        // public WrapperType WrapperType { get; set; }
+        // public Kind Kind { get; set; }
+        // public long? ArtistId { get; set; }
+        // public long? CollectionId { get; set; }
         // public string CollectionName { get; set; }
         // public string CollectionCensoredName { get; set; }
         // public string TrackCensoredName { get; set; }
         // public Uri ArtistViewUrl { get; set; }
         // public Uri CollectionViewUrl { get; set; }
         // public Uri TrackViewUrl { get; set; }
-        public Uri PreviewUrl { get; set; } = null!;
-        public Uri ArtworkUrl30 { get; set; } = null!;
-        public Uri ArtworkUrl60 { get; set; } = null!;
-        public Uri ArtworkUrl100 { get; set; } = null!;
+        // public Uri ArtworkUrl30 { get; set; } = null!;
+        // public Uri ArtworkUrl60 { get; set; } = null!;
         // public double CollectionPrice { get; set; }
         // public double TrackPrice { get; set; }
         // public DateTimeOffset ReleaseDate { get; set; }

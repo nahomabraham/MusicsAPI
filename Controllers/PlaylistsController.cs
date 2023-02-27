@@ -2,17 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using Music;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
-using Microsoft.Extensions.Configuration;
-using System.Security.Cryptography;
-using MongoDB.Driver;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using ZstdSharp.Unsafe;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using authentication.Model;
@@ -87,7 +79,7 @@ public class PlaylistsController : ControllerBase
     }
 
 
-    [HttpDelete("delete"), Authorize]
+    [HttpDelete("DeleteAccount"), Authorize]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public async Task<ActionResult<User>> DeleteAccount(string name, string password)
     {
@@ -103,27 +95,27 @@ public class PlaylistsController : ControllerBase
     {
         return PlaylistCollection.Find(_ => true).ToList();
     }
-    [HttpGet("{id}"), Authorize]
+    [HttpGet("GetPlaylist/{id}"), Authorize]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public Playlist GetPlaylistById(string id)
     {
         return PlaylistCollection.Find(playlist => playlist.Id == id).FirstOrDefault(); ;
     }
 
-    [HttpGet("search/{searchString}"), Authorize]
+    [HttpGet("Search/{searchString}"), Authorize]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public async Task<Result[]> search(string searchString)
     {
         return await iTunesAPI.searchMusic(searchString);
     }
-    [HttpPost, Authorize]
+    [HttpPost("CreatePlaylist"), Authorize]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public void CreatePlaylist(Playlist playlist)
     {
         PlaylistCollection?.InsertOne(playlist);
     }
 
-    [HttpPost("{PlaylistId}"), Authorize]
+    [HttpPost("AddSong/{PlaylistId}"), Authorize]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public void AddSongToPlaylist(string PlaylistId, Result song)
     {
@@ -137,7 +129,7 @@ public class PlaylistsController : ControllerBase
         }
     }
 
-    [HttpPut("editPlaylist/{PlaylistId}"), Authorize]
+    [HttpPut("EditPlaylist/{PlaylistId}"), Authorize]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public void EditPlaylistById(string PlaylistId, string NewPlaylistName)
     {
@@ -146,13 +138,13 @@ public class PlaylistsController : ControllerBase
             playlist.Name = NewPlaylistName;
         PlaylistCollection.ReplaceOne(playlist => playlist.Id == PlaylistId, playlist);
     }
-    [HttpDelete("deleteplaylist/{Id}"), Authorize]
+    [HttpDelete("DeletePlaylist/{Id}"), Authorize]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public void DeletePlaylistById(string Id)
     {
         PlaylistCollection.DeleteOne(i => i.Id == Id);
     }
-    [HttpDelete("deletesong/{SongId}"), Authorize]
+    [HttpDelete("DeleteSong/{SongId}"), Authorize]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public void DeleteSongFromPlaylistById(string PlaylistId, string SongId)
     {

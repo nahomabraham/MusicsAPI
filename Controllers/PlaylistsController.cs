@@ -102,7 +102,7 @@ public class PlaylistsController : ControllerBase
         return PlaylistCollection.Find(playlist => playlist.Id == id).FirstOrDefault(); ;
     }
 
-    [HttpGet("Search/{searchString}"), Authorize]
+    [HttpGet("SearchSong/{searchString}"), Authorize]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public async Task<Result[]> search(string searchString)
     {
@@ -117,16 +117,20 @@ public class PlaylistsController : ControllerBase
 
     [HttpPost("AddSong/{PlaylistId}"), Authorize]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public void AddSongToPlaylist(string PlaylistId, Result song)
+    public async Task<Result[]> AddSongToPlaylist(string PlaylistId, string searchText)
     {
         var playlist = GetPlaylistById(PlaylistId);
+        var song = await iTunesAPI.searchMusic(searchText);
 
-        playlist?.songs.Add(song);
+        if (song.Count() == 0)
+            return Array.Empty<Result>();
         if (playlist != null)
         {
+            playlist?.songs.Add(song[0]);
             DeletePlaylistById(PlaylistId);
             PlaylistCollection?.InsertOne(playlist);
         }
+        return song;
     }
 
     [HttpPut("EditPlaylist/{PlaylistId}"), Authorize]
